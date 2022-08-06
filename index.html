@@ -1,43 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Expenses chart component</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+    <title>Frontend Mentor | Expenses chart component</title>
 
-  My balance
-  $921.48
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap");
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+        width: 100%;
+        position: fixed;
+        bottom: 10px;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+      html,
+      body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: hsl(27, 66%, 92%);
+      }
+      .container {
+        height: 660px;
+        width: 540px;
+      }
+      .balance {
+        background-color: hsl(10, 79%, 65%);
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 27px 39px 25px 32px;
+        font-size: 13.3pt;
+        border-radius: 20px;
+        color: hsl(33, 100%, 98%);
+      }
+      .total-value {
+        margin-top: 8px;
+        font-size: 24.1pt;
+        font-weight: 700;
+      }
+      .chart-container {
+        background-color: hsl(33, 100%, 98%);
+        margin-top: 22px;
+        padding: 34px 40px 0px 40px;
+        border-radius: 20px;
+        color: hsl(25, 47%, 15%);
+      }
+      h1 {
+        font-weight: 700;
+        line-height: 0px;
+      }
+      .chart {
+        margin-top: 87px;
+      }
+      .bars {
+        height: 150px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .bars-title {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 7px;
+      }
+      .bar {
+        height: 0%;
+        width: 50px;
+        background-color: hsl(10, 79%, 65%);
+        border-radius: 5px;
+      }
+      .bar-title {
+        width: 50px;
+        text-align: center;
+      }
+      .value {
+        background-color: hsl(25, 47%, 15%);
+        transform: translate(-11px, -48px);
+        display: none;
+        width: 73px;
+        height: 40px;
+        border-radius: 5px;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.1rem;
+      }
+      .hr {
+        border-bottom: 2px solid hsl(27, 66%, 92%);
+        height: 32px;
+      }
+      .footer {
+        display: flex;
+        padding: 33px 0px 40px 0px;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .label {
+        font-size: 13.8pt;
+      }
+      .total-month {
+        font-size: 35.9pt;
+        font-weight: 700;
+      }
+      .label-right {
+        text-align: end;
+        margin-bottom: 9px;
+      }
+      .percentage {
+        font-size: 13.8pt;
+        font-weight: 700;
+      }
+      @media screen and (max-width: 600px) {
+        .container {
+          width: 343px;
+          height: 531px;
+        }
+        .balance {
+          padding: 19px 24px 23px 19px;
+          font-size: 11.4pt;
+          border-radius: 10px;
+        }
+        .balance img {
+          width: 60px;
+        }
+        .total-value {
+          margin-top: 4px;
+          font-size: 18.1pt;
+        }
+        .chart-container {
+          padding: 24px 20px 0px 20px;
+          border-radius: 10px;
+          margin-top: 16px;
+        }
+        h1 {
+          font-size: 18.1pt;
+        }
+        .chart {
+          margin-top: 67px;
+        }
+        .bar {
+          width: 33px;
+          border-radius: 3px;
+        }
+        .bars-title {
+          margin-top: 10px;
+        }
+        .bar-title {
+          width: 33px;
+          font-size: 9.3pt;
+        }
+        .hr {
+          height: 24px;
+        }
+        .footer {
+          padding: 25px 0px 25px 0px;
+        }
+        .label {
+          font-size: 11.4pt;
+        }
+        .total-month {
+          font-size: 22.5pt;
+          margin-top: 3px;
+        }
+        .label-right {
+          margin-bottom: 0;
+        }
+        .percentage {
+          font-size: 11.4pt;
+        }
+        .value {
+          transform: translate(-10px, -38px);
+          width: 53px;
+          height: 31px;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+    <script>
+      function over(day) {
+        const element = (document.getElementById(`${day}-value`).style.display =
+          "flex");
+      }
+      function leave(day) {
+        const element = (document.getElementById(`${day}-value`).style.display =
+          "none");
+      }
+    </script>
+    <script type="module" src="./script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="balance">
+        <div>
+          <div>My balance</div>
+          <div class="total-value" id="balance">$921.48</div>
+        </div>
+        <img src="./images/logo.svg" alt="" />
+      </div>
+      <div class="chart-container">
+        <h1>Spending - Last 7 days</h1>
+        <div class="chart">
+          <div class="bars">
+            <div
+              class="bar"
+              id="mon"
+              onmouseover="over('mon')"
+              onmouseleave="leave('mon')"
+            >
+              <div class="value" id="mon-value">opa</div>
+            </div>
 
-  Spending - Last 7 days
+            <div
+              class="bar"
+              id="tue"
+              onmouseover="over('tue')"
+              onmouseleave="leave('tue')"
+            >
+              <div class="value" id="tue-value">opa</div>
+            </div>
 
-  mon
-  tue
-  wed
-  thu
-  fri
-  sat
-  sun
+            <div
+              class="bar"
+              id="wed"
+              onmouseover="over('wed')"
+              onmouseleave="leave('wed')"
+            >
+              <div class="value" id="wed-value">$52.36</div>
+            </div>
 
-  Total this month
-  $478.33
+            <div
+              class="bar"
+              id="thu"
+              onmouseover="over('thu')"
+              onmouseleave="leave('thu')"
+            >
+              <div class="value" id="thu-value">opa</div>
+            </div>
 
-  +2.4%
-  from last month
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+            <div
+              class="bar"
+              id="fri"
+              onmouseover="over('fri')"
+              onmouseleave="leave('fri')"
+            >
+              <div class="value" id="fri-value">opa</div>
+            </div>
+
+            <div
+              class="bar"
+              id="sat"
+              onmouseover="over('sat')"
+              onmouseleave="leave('sat')"
+            >
+              <div class="value" id="sat-value">opa</div>
+            </div>
+
+            <div
+              class="bar"
+              id="sun"
+              onmouseover="over('sun')"
+              onmouseleave="leave('sun')"
+            >
+              <div class="value" id="sun-value">opa</div>
+            </div>
+          </div>
+          <div class="bars-title">
+            <div class="bar-title">mon</div>
+            <div class="bar-title">tue</div>
+            <div class="bar-title">wed</div>
+            <div class="bar-title">thu</div>
+            <div class="bar-title">fri</div>
+            <div class="bar-title">sat</div>
+            <div class="bar-title">sun</div>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div class="footer">
+          <div>
+            <div class="label">Total this month</div>
+            <div class="total-month">$478.33</div>
+          </div>
+          <div class="label-right">
+            <div class="percentage">+2.4%</div>
+            <div class="label">from last month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="attribution" role="contentinfo">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div>
+  </body>
 </html>
